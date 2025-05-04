@@ -1,6 +1,6 @@
 import UIKit
 
-class ViewController: UIViewController, UITableViewDataSource, QuickMessagePopupViewControllerDelegate {
+class ViewController: UIViewController, UITableViewDataSource, QuickMessagePopupViewControllerDelegate,UITableViewDelegate {
     struct QuickMessage: Codable {
         var phoneNumber: String
         var message: String
@@ -14,7 +14,8 @@ class ViewController: UIViewController, UITableViewDataSource, QuickMessagePopup
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        TableView.dataSource = self
+        TableView.delegate = self
+        TableView.rowHeight = 160 // Buradan kontrol
         // Hücreyi storyboard'dan kaydettik, ek register gerekmeyebilir
         quickMessages = getSavedQuickMessages()
         TableView.reloadData() // Tabloyu ilk yüklemede güncelle
@@ -66,6 +67,20 @@ class ViewController: UIViewController, UITableViewDataSource, QuickMessagePopup
         return quickMessages.count // Satır sayısı, quickMessages dizisinin uzunluğu
     }
     
+    func openWhatsApp(phoneNumber: String, message: String) {
+        let formattedNumber = phoneNumber.replacingOccurrences(of: "+", with: "").replacingOccurrences(of: " ", with: "")
+        let urlString = "https://wa.me/\(formattedNumber)?text=\(message.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")"
+        
+        if let url = URL(string: urlString), UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url)
+        } else {
+            let alert = UIAlertController(title: "WhatsApp Yok", message: "WhatsApp yüklü değil veya numara geçersiz.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Tamam", style: .default))
+            present(alert, animated: true)
+        }
+    }
+
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "QuickMessageCell", for: indexPath) as! QuickMessageCell
         let message = quickMessages[indexPath.row]
@@ -98,11 +113,10 @@ class QuickMessageCell: UITableViewCell {
     
     @IBAction func sendButtonTapped(_ sender: UIButton) {
         if let viewController = findViewController() as? ViewController {
-            let index = sender.tag
-            let message = viewController.quickMessages[index]
-            print("Mesaj gönderiliyor: \(message.phoneNumber) - \(message.message)")
-            // Burada mesajı gönderme mantığını implement edebilirsin
-        }
+              let index = sender.tag
+              let message = viewController.quickMessages[index]
+              viewController.openWhatsApp(phoneNumber: message.phoneNumber, message: message.message)
+          }
     }
     
     // ViewController'ı bulmak için yardımcı metod

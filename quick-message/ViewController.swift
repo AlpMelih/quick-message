@@ -1,6 +1,8 @@
 import UIKit
+import MessageUI
 
-class ViewController: UIViewController, UITableViewDataSource, QuickMessagePopupViewControllerDelegate,UITableViewDelegate {
+class ViewController: UIViewController, UITableViewDataSource, QuickMessagePopupViewControllerDelegate, UITableViewDelegate, MFMessageComposeViewControllerDelegate {
+    
     struct QuickMessage: Codable {
         var phoneNumber: String
         var message: String
@@ -79,7 +81,25 @@ class ViewController: UIViewController, UITableViewDataSource, QuickMessagePopup
             present(alert, animated: true)
         }
     }
+    
+    func sendSMS(phoneNumber: String, message: String) {
+        if MFMessageComposeViewController.canSendText() {
+            let messageVC = MFMessageComposeViewController()
+            messageVC.recipients = [phoneNumber]
+            messageVC.body = message
+            messageVC.messageComposeDelegate = self // Burada delegate olarak ViewController'ı atıyoruz
+            present(messageVC, animated: true, completion: nil)
+        } else {
+            let alert = UIAlertController(title: "Hata", message: "Bu cihaz SMS gönderemiyor.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Tamam", style: .default))
+            present(alert, animated: true)
+        }
+    }
 
+    // MFMessageComposeViewControllerDelegate metodu
+    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+        controller.dismiss(animated: true, completion: nil)
+    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "QuickMessageCell", for: indexPath) as! QuickMessageCell
@@ -90,6 +110,7 @@ class ViewController: UIViewController, UITableViewDataSource, QuickMessagePopup
         cell.messageLabel.text = "MESAJ : \(message.message)"
         cell.deleteButton.tag = indexPath.row
         cell.sendButton.tag = indexPath.row
+        cell.smsButton.tag = indexPath.row
         
         return cell
     }
@@ -101,6 +122,7 @@ class QuickMessageCell: UITableViewCell {
     @IBOutlet weak var messageLabel: UILabel!
     @IBOutlet weak var deleteButton: UIButton!
     @IBOutlet weak var sendButton: UIButton!
+    @IBOutlet weak var smsButton: UIButton!
     
     @IBAction func deleteButtonTapped(_ sender: UIButton) {
         if let viewController = findViewController() as? ViewController {
@@ -119,6 +141,16 @@ class QuickMessageCell: UITableViewCell {
           }
     }
     
+    @IBAction func senSMSButtonTapped(_ sender: UIButton) {
+        if let viewController = findViewController() as? ViewController {
+            let index = sender.tag
+            let message = viewController.quickMessages[index]
+            
+            // SMS göndermek için metot çağırma
+            viewController.sendSMS(phoneNumber: message.phoneNumber, message: message.message)
+        }
+    }
+    
     // ViewController'ı bulmak için yardımcı metod
     private func findViewController() -> UIViewController? {
         var responder: UIResponder? = self
@@ -130,4 +162,5 @@ class QuickMessageCell: UITableViewCell {
         }
         return nil
     }
+    
 }

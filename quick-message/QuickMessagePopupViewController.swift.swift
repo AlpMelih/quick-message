@@ -5,7 +5,7 @@ protocol QuickMessagePopupViewControllerDelegate: AnyObject {
     func saveQuickMessage(phoneNumber: String, message: String)
 }
 
-class QuickMessagePopupViewController: UIViewController, CNContactPickerDelegate {
+class QuickMessagePopupViewController: UIViewController, CNContactPickerDelegate ,UITextFieldDelegate{
 
     @IBOutlet weak var phoneNumberLabel: UILabel!
     @IBOutlet weak var messageTextField: UITextField!  // UITextView yerine UITextField
@@ -18,6 +18,7 @@ class QuickMessagePopupViewController: UIViewController, CNContactPickerDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         saveButton.isEnabled = false
+        messageTextField.delegate = self  // Delegate ataması
     }
     
     @IBAction func selectPhoneNumberTapped(_ sender: UIButton) {
@@ -44,4 +45,5 @@ class QuickMessagePopupViewController: UIViewController, CNContactPickerDelegate
         delegate?.saveQuickMessage(phoneNumber: phoneNumber, message: message)
         dismiss(animated: true, completion: nil)
     }
+    
 }

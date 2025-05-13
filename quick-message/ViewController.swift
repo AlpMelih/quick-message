@@ -1,13 +1,14 @@
 import UIKit
 import MessageUI
 
+struct QuickMessage: Codable {
+    var phoneNumber: String
+    var message: String
+}
+
 class ViewController: UIViewController, UITableViewDataSource, QuickMessagePopupViewControllerDelegate, UITableViewDelegate, MFMessageComposeViewControllerDelegate {
     
-    struct QuickMessage: Codable {
-        var phoneNumber: String
-        var message: String
-    }
-    
+   
     @IBOutlet weak var TableView: UITableView!
     @IBOutlet weak var NewQuickMessageButton: UIButton!
     
@@ -107,7 +108,7 @@ class ViewController: UIViewController, UITableViewDataSource, QuickMessagePopup
         
         // Hücre içeriğini doldur
         cell.phoneNumberLabel.text = "NUMARA : \(message.phoneNumber)"
-        cell.messageLabel.text = "MESAJ : \(message.message)"
+        cell.messageTextView.text = "MESAJ : \(message.message)"
         cell.deleteButton.tag = indexPath.row
         cell.sendButton.tag = indexPath.row
         cell.smsButton.tag = indexPath.row
@@ -116,14 +117,14 @@ class ViewController: UIViewController, UITableViewDataSource, QuickMessagePopup
     }
 }
 
-// Özel Hücre Sınıfı (Storyboard ile bağlanacak)
 class QuickMessageCell: UITableViewCell {
     @IBOutlet weak var phoneNumberLabel: UILabel!
-    @IBOutlet weak var messageLabel: UILabel!
+    @IBOutlet weak var messageTextView: UITextView!  // messageLabel yerine messageTextView
     @IBOutlet weak var deleteButton: UIButton!
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var smsButton: UIButton!
     
+    // Delete button action
     @IBAction func deleteButtonTapped(_ sender: UIButton) {
         if let viewController = findViewController() as? ViewController {
             let index = sender.tag
@@ -133,14 +134,16 @@ class QuickMessageCell: UITableViewCell {
         }
     }
     
+    // Send button action
     @IBAction func sendButtonTapped(_ sender: UIButton) {
         if let viewController = findViewController() as? ViewController {
-              let index = sender.tag
-              let message = viewController.quickMessages[index]
-              viewController.openWhatsApp(phoneNumber: message.phoneNumber, message: message.message)
-          }
+            let index = sender.tag
+            let message = viewController.quickMessages[index]
+            viewController.openWhatsApp(phoneNumber: message.phoneNumber, message: message.message)
+        }
     }
     
+    // Send SMS button action
     @IBAction func senSMSButtonTapped(_ sender: UIButton) {
         if let viewController = findViewController() as? ViewController {
             let index = sender.tag
@@ -163,4 +166,9 @@ class QuickMessageCell: UITableViewCell {
         return nil
     }
     
+    // Hücreyi yeniden kullanmak için mesaj metnini güncelle
+    func configureCell(with message: QuickMessage) {
+        phoneNumberLabel.text = message.phoneNumber
+        messageTextView.text = message.message  // messageLabel yerine textView'e metin atama
+    }
 }

@@ -115,6 +115,16 @@ class ViewController: UIViewController, UITableViewDataSource, QuickMessagePopup
         
         return cell
     }
+     
+        func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+            return 16 // 16pt boşluk
+        }
+
+        func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+            let spacerView = UIView()
+            spacerView.backgroundColor = .clear // Saydam boşluk
+            return spacerView
+        }
 }
 
 class QuickMessageCell: UITableViewCell {

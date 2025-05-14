@@ -109,23 +109,16 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bpe-nH-kxD">
-                                <rect key="frame" x="85" y="50" width="223" height="51"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="tinted" title="YENİ HIZLI MESAJ EKLE" buttonSize="large"/>
-                                <connections>
-                                    <action selector="newQuickMessageButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="U5C-5e-3pP"/>
-                                </connections>
-                            </button>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="singleLineEtched" sectionIndexMinimumDisplayRowCount="6" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="w1u-7I-RLa">
-                                <rect key="frame" x="5" y="151" width="383" height="701"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="singleLineEtched" sectionIndexMinimumDisplayRowCount="6" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" estimatedSectionHeaderHeight="-1" sectionFooterHeight="18" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="w1u-7I-RLa">
+                                <rect key="frame" x="5" y="117" width="383" height="701"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="701" id="59l-qB-QbQ"/>
+                                </constraints>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="QuickMessageCell" rowHeight="221" id="CDQ-Y5-Mwj" customClass="QuickMessageCell" customModule="quick_message" customModuleProvider="target">
                                         <rect key="frame" x="20" y="55.333332061767578" width="343" height="221"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="CDQ-Y5-Mwj" id="9wp-g1-Lge" customClass="QuickMessageCell" customModule="quick_message" customModuleProvider="target">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="CDQ-Y5-Mwj" id="9wp-g1-Lge" customClass="QuickMessageCell" customModule="quick_message" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="0.0" width="343" height="221"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
@@ -137,7 +130,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="r61-Uh-xz5">
-                                                    <rect key="frame" x="20" y="59" width="240" height="128"/>
+                                                    <rect key="frame" x="20" y="59" width="240" height="70"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                     <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
@@ -149,7 +142,7 @@
                                                     </connections>
                                                 </textView>
                                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Xn-vS-NuR">
-                                                    <rect key="frame" x="282" y="11" width="48" height="35"/>
+                                                    <rect key="frame" x="282" y="4" width="48" height="35"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal" title="Button"/>
                                                     <buttonConfiguration key="configuration" style="plain" image="trash.fill" catalog="system">
@@ -160,7 +153,7 @@
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kyk-oL-9dm">
-                                                    <rect key="frame" x="281" y="94" width="50" height="35"/>
+                                                    <rect key="frame" x="281" y="47" width="50" height="35"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal" title="Button"/>
                                                     <buttonConfiguration key="configuration" style="plain" image="phone.circle" catalog="system">
@@ -171,7 +164,7 @@
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vxg-jQ-0bw">
-                                                    <rect key="frame" x="282" y="168" width="53" height="35"/>
+                                                    <rect key="frame" x="280" y="94" width="53" height="35"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal" title="Button"/>
                                                     <buttonConfiguration key="configuration" style="plain" image="message.fill" catalog="system"/>
@@ -180,6 +173,7 @@
                                                     </connections>
                                                 </button>
                                             </subviews>
+                                            <rect key="contentStretch" x="0.20000000000000001" y="1" width="1" height="1"/>
                                         </tableViewCellContentView>
                                         <accessibility key="accessibilityConfiguration" identifier="QuickMessageCell"/>
                                         <connections>
@@ -196,9 +190,24 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="jOj-6u-GUN"/>
                                 </connections>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bpe-nH-kxD">
+                                <rect key="frame" x="84" y="58" width="224" height="51"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="tinted" title="YENİ HIZLI MESAJ EKLE" buttonSize="large"/>
+                                <connections>
+                                    <action selector="newQuickMessageButtonTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="U5C-5e-3pP"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="w1u-7I-RLa" firstAttribute="top" secondItem="Bpe-nH-kxD" secondAttribute="bottom" constant="50" id="4RK-eK-3ZX"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="w1u-7I-RLa" secondAttribute="bottom" constant="34" id="Awa-dG-7kf"/>
+                            <constraint firstItem="w1u-7I-RLa" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="RMv-sT-ZGf"/>
+                            <constraint firstItem="w1u-7I-RLa" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="5" id="Ubh-6E-Emh"/>
+                            <constraint firstItem="w1u-7I-RLa" firstAttribute="centerX" secondItem="Bpe-nH-kxD" secondAttribute="centerX" id="fxo-I1-PgA"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="NewQuickMessageButton" destination="Bpe-nH-kxD" id="Ick-Km-OAr"/>

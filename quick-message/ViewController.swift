@@ -11,6 +11,8 @@ class ViewController: UIViewController, UITableViewDataSource, QuickMessagePopup
    
     @IBOutlet weak var TableView: UITableView!
     @IBOutlet weak var NewQuickMessageButton: UIButton!
+    var selectedIndex: Int?
+    var selectedMessage: QuickMessage?
     
     var quickMessages: [QuickMessage] = [] // Kaydedilen mesajlar için veri kaynağı
     
@@ -19,11 +21,29 @@ class ViewController: UIViewController, UITableViewDataSource, QuickMessagePopup
         
         TableView.delegate = self
         TableView.rowHeight = 160 // Buradan kontrol
+       
         // Hücreyi storyboard'dan kaydettik, ek register gerekmeyebilir
         quickMessages = getSavedQuickMessages()
         TableView.reloadData() // Tabloyu ilk yüklemede güncelle
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+           if segue.identifier == "toEditVC" {
+               if let editVC = segue.destination as? EditMessageViewController,
+                  let message = selectedMessage,
+                  let index = selectedIndex {
+                   editVC.quickMessage = message
+                   editVC.messageIndex = index
+                   editVC.onSave = { [weak self] updatedMessage in
+                       guard let self = self else { return }
+                       self.quickMessages[index] = updatedMessage
+                       self.saveQuickMessages()
+                       self.TableView.reloadData()
+                   }
+               }
+           }
+       }
+
     // Yeni mesaj ekleme butonu aksiyonu
     @IBAction func newQuickMessageButtonTapped(_ sender: UIButton) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
@@ -106,12 +126,14 @@ class ViewController: UIViewController, UITableViewDataSource, QuickMessagePopup
         let cell = tableView.dequeueReusableCell(withIdentifier: "QuickMessageCell", for: indexPath) as! QuickMessageCell
         let message = quickMessages[indexPath.row]
         
-        // Hücre içeriğini doldur
-        cell.phoneNumberLabel.text = "NUMARA : \(message.phoneNumber)"
-        cell.messageTextView.text = "MESAJ : \(message.message)"
+        // Bu satır, tüm içeriği doğru şekilde ayarlar
+        cell.configureCell(with: message)
+        
+        // Butonlara tag atamayı yine yap
         cell.deleteButton.tag = indexPath.row
         cell.sendButton.tag = indexPath.row
         cell.smsButton.tag = indexPath.row
+        cell.editButton.tag = indexPath.row
         
         return cell
     }
@@ -133,6 +155,7 @@ class QuickMessageCell: UITableViewCell {
     @IBOutlet weak var deleteButton: UIButton!
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var smsButton: UIButton!
+    @IBOutlet weak var editButton: UIButton!
     
     // Delete button action
     @IBAction func deleteButtonTapped(_ sender: UIButton) {
@@ -163,6 +186,22 @@ class QuickMessageCell: UITableViewCell {
             viewController.sendSMS(phoneNumber: message.phoneNumber, message: message.message)
         }
     }
+    @IBAction func editButtonTapped(_ sender: UIButton) {
+           if let viewController = findViewController() as? ViewController {
+               let index = sender.tag
+               let message = viewController.quickMessages[index]
+               
+               // Geçici olarak seçilen mesaj ve index'i sakla
+               viewController.selectedIndex = index
+               viewController.selectedMessage = message
+               
+               // Segue tetikle
+               viewController.performSegue(withIdentifier: "toEditVC", sender: nil)
+           }
+       }
+
+
+
     
     // ViewController'ı bulmak için yardımcı metod
     private func findViewController() -> UIViewController? {
@@ -180,5 +219,7 @@ class QuickMessageCell: UITableViewCell {
     func configureCell(with message: QuickMessage) {
         phoneNumberLabel.text = message.phoneNumber
         messageTextView.text = message.message  // messageLabel yerine textView'e metin atama
+        messageTextView.isEditable = false
+            messageTextView.isSelectable = true
     }
 }

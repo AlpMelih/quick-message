@@ -18,6 +18,10 @@ class EditMessageViewController: UIViewController {
             phoneNumberTextField.text = quickMessage.phoneNumber
             messageTextView.text = quickMessage.message
         }
+        messageTextView.layer.borderColor = UIColor.lightGray.cgColor
+        messageTextView.layer.borderWidth = 1
+        messageTextView.layer.cornerRadius = 6
+        messageTextView.isScrollEnabled = true
     }
     
     // Storyboard'daki Kaydet butonuna bu IBAction'ı bağla
